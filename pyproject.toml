@@ -13,5 +13,7 @@ dependencies = [
   "scipy"
 ]
 
-[tool.uv]
-default-groups = ["default"]
+[dependency-groups]
+dev = [
+    "ruff",
+]
