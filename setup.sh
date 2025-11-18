@@ -21,6 +21,6 @@ echo "✅ Setup complete!"
 echo ""
 echo "Next steps:"
 echo "1. Create a .env file with your DEEPGRAM_API_KEY"
-echo "2. Run: uv run robyn audio_backend_api.py --processes 4"
-echo "3. Test: curl http://localhost:8080/health"
+echo "2. Push to GitHub - Coolify will auto-deploy"
+echo "3. Test: curl https://sampler.v1su4.com/health"
 

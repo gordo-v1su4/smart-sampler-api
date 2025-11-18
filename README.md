@@ -154,8 +154,10 @@ If you prefer manual deployment without GitHub Actions:
 
 ```bash
 docker build -t smart-sampler-api .
-docker run -p 5000:8080 -e DEEPGRAM_API_KEY=your_key smart-sampler-api
+docker run -e DEEPGRAM_API_KEY=your_key smart-sampler-api
 ```
+
+**Note:** For production deployment, use Coolify which handles port mapping automatically. The API is available at `https://sampler.v1su4.com`.
 
 ## Development Workflow
 
