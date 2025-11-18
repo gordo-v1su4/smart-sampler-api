@@ -6,7 +6,7 @@ import librosa
 import numpy as np
 import madmom
 from dotenv import load_dotenv
-from deepgram import DeepgramClient, PrerecordedOptions
+from deepgram import DeepgramClient
 
 load_dotenv()
 
@@ -16,11 +16,11 @@ app = Robyn(__file__)
 DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
 if not DEEPGRAM_API_KEY:
     raise RuntimeError("Set DEEPGRAM_API_KEY in Coolify secrets!")
-dg_client = DeepgramClient(DEEPGRAM_API_KEY)
+dg_client = DeepgramClient(api_key=DEEPGRAM_API_KEY)
 
 @app.get("/health")
 async def health(_: Request):
-    return "Smart Sampler API @ sampler.v1su4.com – ready ✓"
+    return "Smart Sampler API @ sampler.v1su4.com - ready"
 
 @app.post("/analyze")
 async def analyze(request: Request):
@@ -43,16 +43,23 @@ async def analyze(request: Request):
         lyrics_data = {"full_text": "", "words": [], "phrases": []}
         if mode == "full":
             with open(tmp_path, "rb") as f:
-                source = {"buffer": f, "mimetype": "audio/mpeg"}
-                options = PrerecordedOptions(model="nova-2", smart_format=True, utterances=True, punctuate=True, language="en")
-                resp = dg_client.listen.prerecorded.v("1").transcribe_file(source, options)
-                alt = resp.results.channels[0].alternatives[0]
-                lyrics_data = {
-                    "full_text": alt.transcript,
-                    "words": [{"word": w.word, "start": round(w.start, 3), "end": round(w.end, 3)} for w in alt.words],
-                    "phrases": [{"text": u.transcript.strip(), "start": round(u.start, 3), "end": round(u.end, 3)} 
-                                for u in resp.results.utterances] if hasattr(resp.results, "utterances") else []
-                }
+                buffer_data = f.read()
+            
+            resp = dg_client.listen.v1.media.transcribe_file(
+                request=buffer_data,
+                model="nova-2",
+                smart_format=True,
+                utterances=True,
+                punctuate=True,
+                language="en"
+            )
+            alt = resp.results.channels[0].alternatives[0]
+            lyrics_data = {
+                "full_text": alt.transcript,
+                "words": [{"word": w.word, "start": round(w.start, 3), "end": round(w.end, 3)} for w in alt.words],
+                "phrases": [{"text": u.transcript.strip(), "start": round(u.start, 3), "end": round(u.end, 3)} 
+                            for u in resp.results.utterances] if hasattr(resp.results, "utterances") else []
+            }
 
         # madmom transients
         proc = madmom.features.OnsetPeakPickingProcessor(fps=200, threshold=0.3, combine=0.03)
@@ -82,4 +89,4 @@ async def analyze(request: Request):
         if os.path.exists(tmp_path):
             os.unlink(tmp_path)
 
-print("Smart Sampler API → https://sampler.v1su4.com")
+print("Smart Sampler API -> https://sampler.v1su4.com")
