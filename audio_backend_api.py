@@ -4,6 +4,14 @@ import tempfile
 from robyn import Robyn, Request, jsonify, OpenApi
 import librosa
 import numpy as np
+import collections
+from collections.abc import MutableSequence
+
+# madmom (0.16.x) still imports MutableSequence from collections directly.
+# Python 3.10+ moved these ABCs to collections.abc, so ensure the attribute exists.
+if not hasattr(collections, "MutableSequence"):
+    collections.MutableSequence = MutableSequence
+
 import madmom
 from dotenv import load_dotenv
 from deepgram import DeepgramClient, PrerecordedOptions
