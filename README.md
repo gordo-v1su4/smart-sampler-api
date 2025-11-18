@@ -19,6 +19,18 @@ A high-performance audio analysis API built with Robyn, combining Ableton-qualit
 - **librosa** - Audio analysis (tempo, beats, key)
 - **uv** - Lightning-fast Python package manager
 
+## API Documentation
+
+**Interactive API Docs:** `https://sampler.v1su4.com/docs`
+
+The API documentation will be available via Scalar API Reference at `/docs` once OpenAPI support is enabled (requires Robyn 0.73+). This will provide an interactive interface to explore and test all endpoints.
+
+**OpenAPI Spec:** `https://sampler.v1su4.com/openapi.json`
+
+The OpenAPI specification will be available at `/openapi.json` for integration with API clients and tools once OpenAPI support is added.
+
+**Note:** Currently using Robyn 0.72.2 which doesn't include OpenAPI support yet. Interactive docs will be available after upgrading to Robyn 0.73+.
+
 ## API Endpoints
 
 **Base URL:** `https://sampler.v1su4.com`
