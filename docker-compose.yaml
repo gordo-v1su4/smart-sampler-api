@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  smart-sampler-api:
+    build: .
+    container_name: smart-sampler-api
+    restart: unless-stopped          # ← fixed the typo
+    ports:
+      - "5000:8080"                  # ← change 5000 → any free port you want
+    env_file:
+      - .env                         # ← reads DEEPGRAM_API_KEY from .env file (recommended)
+    volumes:
+      - .:/app                       # ← full hot-reload for development (optional, remove in prod)           # optional: live code reload while developing
+

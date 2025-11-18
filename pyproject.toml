@@ -9,8 +9,8 @@ dependencies = [
   "python-dotenv",
   "deepgram-sdk>=3.5.0",
   "madmom>=0.16.1",
-  "numpy<2.0",      # critical – madmom not yet compatible with numpy 2.x
-  "scipy"           # madmom needs it explicitly
+  "numpy<2.0",
+  "scipy"
 ]
 
 [tool.uv]

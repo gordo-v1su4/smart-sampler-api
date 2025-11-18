@@ -1,0 +1,85 @@
+name: Test and Deploy to Coolify
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test and Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.11
+
+      - name: Create virtual environment
+        run: uv venv
+
+      - name: Install dependencies
+        run: |
+          uv pip install robyn librosa madmom deepgram-sdk python-dotenv python-multipart 'numpy<2' scipy soundfile
+          uv pip install ruff  # For linting
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile audio_backend_api.py
+
+      - name: Lint with ruff
+        run: |
+          uv run ruff check audio_backend_api.py --ignore E501 || true
+        continue-on-error: true
+
+      - name: Validate imports
+        run: |
+          uv run python -c "import robyn, librosa, madmom, deepgram, dotenv, numpy, scipy; print('All imports valid')"
+
+  deploy:
+    name: Deploy to Coolify
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Trigger Coolify deployment
+        env:
+          WEBHOOK_URL: ${{ secrets.COOLIFY_WEBHOOK_URL }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ]; then
+            echo "⚠️  Warning: COOLIFY_WEBHOOK_URL secret not set. Skipping deployment."
+            echo "💡 To enable auto-deployment, add COOLIFY_WEBHOOK_URL to GitHub Secrets"
+            exit 0
+          fi
+          
+          echo "🚀 Triggering Coolify deployment..."
+          response=$(curl -s -w "\n%{http_code}" -X POST "$WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"ref\":\"${{ github.ref }}\",\"sha\":\"${{ github.sha }}\",\"repository\":{\"full_name\":\"${{ github.repository }}\"},\"pusher\":{\"name\":\"${{ github.actor }}\"}}")
+          
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          
+          if [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ]; then
+            echo "✅ Deployment triggered successfully (HTTP $http_code)"
+          else
+            echo "⚠️  Webhook returned HTTP $http_code"
+            echo "Response: $body"
+            echo "💡 If deployment didn't trigger, check your Coolify webhook URL"
+          fi
+
