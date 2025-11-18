@@ -19,65 +19,21 @@ A high-performance audio analysis API built with Robyn, combining Ableton-qualit
 - **librosa** - Audio analysis (tempo, beats, key)
 - **uv** - Lightning-fast Python package manager
 
-## Quick Start
-
-### Prerequisites
-
-- Python 3.10+ (or Python 3.11+ recommended)
-- [uv](https://github.com/astral-sh/uv) - Install with `pip install uv`
-
-### Local Development Setup
-
-1. **Clone the repository**
-```bash
-git clone <your-repo-url>
-cd smart-sampler-api
-```
-
-2. **Create virtual environment and install dependencies**
-```bash
-uv venv
-uv pip install robyn librosa madmom deepgram-sdk python-dotenv python-multipart numpy"<2" scipy soundfile
-```
-
-3. **Set up environment variables**
-Create a `.env` file in the project root:
-```env
-DEEPGRAM_API_KEY=your_deepgram_api_key_here
-```
-
-4. **Run the API**
-```bash
-uv run robyn audio_backend_api.py --processes 4
-```
-
-The API will be available at `http://localhost:8080`
-
-### Testing the API
-
-**Health Check:**
-```bash
-curl http://localhost:8080/health
-```
-
-**Analyze Audio File:**
-```bash
-curl -F "file=@path/to/your/song.mp3" http://localhost:8080/analyze | jq
-```
-
-**Analyze from URL:**
-```bash
-curl "http://localhost:8080/analyze?url=https://example.com/audio.mp3" | jq
-```
-
 ## API Endpoints
+
+**Base URL:** `https://sampler.v1su4.com`
 
 ### `GET /health`
 Health check endpoint.
 
+**Example:**
+```bash
+curl https://sampler.v1su4.com/health
+```
+
 **Response:**
 ```
-Smart Sampler API ready – madmom + Deepgram
+Smart Sampler API @ sampler.v1su4.com - ready
 ```
 
 ### `POST /analyze`
@@ -85,7 +41,26 @@ Analyze an audio file for beats, transients, tempo, key, and lyrics.
 
 **Request:**
 - **Form Data:** `file` - Audio file (mp3, wav, etc.)
-- **Query Parameter:** `url` - URL to audio file (alternative to file upload)
+- **Query Parameters:**
+  - `url` - URL to audio file (alternative to file upload)
+  - `mode` - `fast` (skips Deepgram lyrics) or `full` (includes lyrics, default)
+
+**Examples:**
+
+Upload file:
+```bash
+curl -F "file=@song.mp3" https://sampler.v1su4.com/analyze | jq
+```
+
+Analyze from URL (fast mode):
+```bash
+curl "https://sampler.v1su4.com/analyze?url=https://example.com/audio.mp3&mode=fast" | jq
+```
+
+Analyze from URL (full mode with lyrics):
+```bash
+curl "https://sampler.v1su4.com/analyze?url=https://example.com/audio.mp3&mode=full" | jq
+```
 
 **Response:**
 ```json
@@ -174,18 +149,15 @@ docker run -p 5000:8080 -e DEEPGRAM_API_KEY=your_key smart-sampler-api
 
 ## Development Workflow
 
-### Daily Development
-- **Local:** Windows + VS Code + Git Bash + `uv`
-- **Testing:** `http://localhost:8080` (no SSL needed)
 - **CI/CD:** `git push` → GitHub Actions runs tests → Auto-deploys to Coolify with SSL
 - **Production:** Automatic deployment on every push to `main` branch
+- **API:** Available at `https://sampler.v1su4.com`
 
 ### Best Practices
-- ✅ Always use `uv` for dependency management
-- ✅ Test locally before pushing
 - ✅ Never edit files directly on the server
 - ✅ Use Coolify secrets for environment variables
 - ✅ Keep Dockerfile and docker-compose.yaml in project root
+- ✅ All changes go through Git → GitHub → Coolify auto-deployment
 
 ## Project Structure
 
@@ -227,3 +199,4 @@ smart-sampler-api/
 
 ## Contributing
 
+##
