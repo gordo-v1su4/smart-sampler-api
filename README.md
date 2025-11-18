@@ -227,5 +227,3 @@ smart-sampler-api/
 
 ## Contributing
 
-[Add contribution guidelines if needed]
-
