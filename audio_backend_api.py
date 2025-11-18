@@ -1,7 +1,7 @@
 # audio_backend_api.py — Smart Sampler API @ sampler.v1su4.com
 import os
 import tempfile
-from robyn import Robyn, Request, jsonify, OpenApi
+from robyn import Robyn, Request, jsonify
 import librosa
 import numpy as np
 import madmom
@@ -11,32 +11,6 @@ from deepgram import DeepgramClient, PrerecordedOptions
 load_dotenv()
 
 app = Robyn(__file__)
-
-# === SCALAR DOCS[](https://sampler.v1su4.com/docs) ===
-app.open_api = OpenApi(
-    title="Smart Sampler API",
-    version="1.0.0",
-    description="Unlimited Serato Sample / Ableton Simpler intelligence @ sampler.v1su4.com",
-    license_info="MIT"
-)
-
-@app.get("/docs")
-async def docs(_: Request):
-    return """
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <title>Smart Sampler API – sampler.v1su4.com</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.0.0/dist/index.css">
-      </head>
-      <body>
-        <script id="api-reference" data-url="/openapi.json"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.0.0"></script>
-      </body>
-    </html>
-    """
 
 DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
 if not DEEPGRAM_API_KEY:
