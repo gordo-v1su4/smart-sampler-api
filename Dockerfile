@@ -1,5 +1,5 @@
 # Smart Sampler API - Official Dockerfile (Nov 2025 – Coolify-optimized)
-FROM python:3.11-slim
+FROM python:3.10-slim
 
 # System deps for audio (librosa + madmom)
 RUN apt-get update && apt-get install -y --no-install-recommends \
