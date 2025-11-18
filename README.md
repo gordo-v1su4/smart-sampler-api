@@ -21,24 +21,24 @@ A high-performance audio analysis API built with Robyn, combining Ableton-qualit
 
 ## API Documentation
 
-**Interactive API Docs:** `https://sampler.v1su4.com/docs`
+**Interactive API Docs:** `https://sampler.v1su4.com:5000/docs`
 
 The API documentation is available via Scalar API Reference at `/docs`. This provides an interactive interface to explore and test all endpoints directly in your browser.
 
-**OpenAPI Spec:** `https://sampler.v1su4.com/openapi.json`
+**OpenAPI Spec:** `https://sampler.v1su4.com:5000/openapi.json`
 
 The OpenAPI specification is available at `/openapi.json` for integration with API clients and tools like Postman, Insomnia, or code generators.
 
 ## API Endpoints
 
-**Base URL:** `https://sampler.v1su4.com`
+**Base URL:** `https://sampler.v1su4.com:5000`
 
 ### `GET /health`
 Health check endpoint.
 
 **Example:**
 ```bash
-curl https://sampler.v1su4.com/health
+curl https://sampler.v1su4.com:5000/health
 ```
 
 **Response:**
@@ -59,17 +59,17 @@ Analyze an audio file for beats, transients, tempo, key, and lyrics.
 
 Upload file:
 ```bash
-curl -F "file=@song.mp3" https://sampler.v1su4.com/analyze | jq
+curl -F "file=@song.mp3" https://sampler.v1su4.com:5000/analyze | jq
 ```
 
 Analyze from URL (fast mode):
 ```bash
-curl "https://sampler.v1su4.com/analyze?url=https://example.com/audio.mp3&mode=fast" | jq
+curl "https://sampler.v1su4.com:5000/analyze?url=https://example.com/audio.mp3&mode=fast" | jq
 ```
 
 Analyze from URL (full mode with lyrics):
 ```bash
-curl "https://sampler.v1su4.com/analyze?url=https://example.com/audio.mp3&mode=full" | jq
+curl "https://sampler.v1su4.com:5000/analyze?url=https://example.com/audio.mp3&mode=full" | jq
 ```
 
 **Response:**
@@ -157,13 +157,13 @@ docker build -t smart-sampler-api .
 docker run -e DEEPGRAM_API_KEY=your_key smart-sampler-api
 ```
 
-**Note:** For production deployment, use Coolify which handles port mapping automatically. The API is available at `https://sampler.v1su4.com`.
+**Note:** For production deployment, use Coolify which handles port mapping automatically. The API is available at `https://sampler.v1su4.com:5000`.
 
 ## Development Workflow
 
 - **CI/CD:** `git push` → GitHub Actions runs tests → Auto-deploys to Coolify with SSL
 - **Production:** Automatic deployment on every push to `main` branch
-- **API:** Available at `https://sampler.v1su4.com`
+- **API:** Available at `https://sampler.v1su4.com:5000`
 
 ### Best Practices
 - ✅ Never edit files directly on the server

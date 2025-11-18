@@ -1,7 +1,7 @@
 version: "3.9"
 
 # Note: This file is for local testing only.
-# Production deployment uses Coolify at https://sampler.v1su4.com
+# Production deployment uses Coolify at https://sampler.v1su4.com:5000
 
 services:
   smart-sampler-api:
@@ -9,7 +9,7 @@ services:
     container_name: smart-sampler-api
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "5000:8080"
     environment:
       - ROBYN_HOST=0.0.0.0
       - ROBYN_PORT=8080
