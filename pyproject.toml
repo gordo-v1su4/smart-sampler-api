@@ -13,6 +13,9 @@ dependencies = [
   "scipy"
 ]
 
+[tool.uv.extra-build-dependencies]
+madmom = ["Cython", "numpy"]
+
 [dependency-groups]
 dev = [
     "ruff",
