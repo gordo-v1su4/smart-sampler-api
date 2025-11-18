@@ -98,4 +98,10 @@ async def analyze(request: Request):
         if os.path.exists(tmp_path):
             os.unlink(tmp_path)
 
-print("Smart Sampler API -> https://sampler.v1su4.com")
+if __name__ == "__main__":
+    # Robyn CLI automatically handles --processes, --workers, etc.
+    # app.start() reads ROBYN_HOST and ROBYN_PORT from env vars
+    # Default to 0.0.0.0:8080 for Docker if not set
+    host = os.getenv("ROBYN_HOST", "0.0.0.0")
+    port = int(os.getenv("ROBYN_PORT", "8080"))
+    app.start(host=host, port=port)

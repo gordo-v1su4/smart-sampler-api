@@ -29,5 +29,9 @@ RUN uv venv && \
 # Expose Coolify/Traefik port
 EXPOSE 8080
 
+# Set environment variables for Robyn
+ENV ROBYN_HOST=0.0.0.0
+ENV ROBYN_PORT=8080
+
 # Run with maximum performance
-CMD ["uv", "run", "robyn", "audio_backend_api.py", "--processes", "4", "--workers", "2", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uv", "run", "python", "audio_backend_api.py", "--processes", "4", "--workers", "2"]
