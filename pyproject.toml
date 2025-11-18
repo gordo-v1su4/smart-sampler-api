@@ -3,7 +3,7 @@ name = "smart-sampler-api"
 version = "1.0.0"
 requires-python = ">=3.10,<3.11"
 dependencies = [
-  "robyn>=0.30.0",
+  "robyn",  # Latest available version
   "librosa>=0.10.2",
   "soundfile",
   "python-multipart",

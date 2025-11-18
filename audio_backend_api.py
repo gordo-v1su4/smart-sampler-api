@@ -11,6 +11,7 @@ from deepgram import DeepgramClient, PrerecordedOptions
 load_dotenv()
 
 app = Robyn(__file__)
+# Note: OpenAPI support coming in Robyn 0.73+ (not yet released)
 
 DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
 if not DEEPGRAM_API_KEY:

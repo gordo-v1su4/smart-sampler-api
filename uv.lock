@@ -667,7 +667,7 @@ requires-dist = [
     { name = "numpy", specifier = "<2.0" },
     { name = "python-dotenv" },
     { name = "python-multipart" },
-    { name = "robyn", specifier = ">=0.30.0" },
+    { name = "robyn" },
     { name = "scipy" },
     { name = "setuptools" },
     { name = "soundfile" },
