@@ -23,13 +23,11 @@ A high-performance audio analysis API built with Robyn, combining Ableton-qualit
 
 **Interactive API Docs:** `https://sampler.v1su4.com/docs`
 
-The API documentation will be available via Scalar API Reference at `/docs` once OpenAPI support is enabled (requires Robyn 0.73+). This will provide an interactive interface to explore and test all endpoints.
+The API documentation is available via Scalar API Reference at `/docs`. This provides an interactive interface to explore and test all endpoints directly in your browser.
 
 **OpenAPI Spec:** `https://sampler.v1su4.com/openapi.json`
 
-The OpenAPI specification will be available at `/openapi.json` for integration with API clients and tools once OpenAPI support is added.
-
-**Note:** Currently using Robyn 0.72.2 which doesn't include OpenAPI support yet. Interactive docs will be available after upgrading to Robyn 0.73+.
+The OpenAPI specification is available at `/openapi.json` for integration with API clients and tools like Postman, Insomnia, or code generators.
 
 ## API Endpoints
 

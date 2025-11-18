@@ -2,6 +2,7 @@
 import os
 import tempfile
 from robyn import Robyn, Request, jsonify
+from robyn.openapi import OpenAPI, OpenAPIInfo
 import librosa
 import numpy as np
 import madmom
@@ -10,8 +11,16 @@ from deepgram import DeepgramClient
 
 load_dotenv()
 
-app = Robyn(__file__)
-# Note: OpenAPI support coming in Robyn 0.73+ (not yet released)
+app = Robyn(
+    file_object=__file__,
+    openapi=OpenAPI(
+        info=OpenAPIInfo(
+            title="Smart Sampler API",
+            description="Audio analysis API with beat detection, transient detection, tempo, key detection, and lyrics extraction",
+            version="1.0.0",
+        )
+    )
+)
 
 DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
 if not DEEPGRAM_API_KEY:
