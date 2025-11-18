@@ -18,8 +18,9 @@ WORKDIR /app
 COPY pyproject.toml .
 COPY audio_backend_api.py .
 
-# Install everything with uv (blazing fast + proper venv)
-RUN uv pip install \
+# Create virtual environment and install dependencies
+RUN uv venv && \
+    uv pip install \
     robyn librosa madmom deepgram-sdk python-dotenv python-multipart \
     'numpy<2' scipy soundfile
 
