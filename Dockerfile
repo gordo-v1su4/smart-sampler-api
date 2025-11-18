@@ -17,12 +17,14 @@ WORKDIR /app
 # Copy only what we need for install (layer caching)
 COPY pyproject.toml .
 COPY audio_backend_api.py .
+COPY sitecustomize.py .
 
 # Create virtual environment and install dependencies
 RUN uv venv && \
     uv pip install \
     robyn librosa madmom deepgram-sdk python-dotenv python-multipart \
-    'numpy<2' scipy soundfile setuptools
+    'numpy<2' scipy soundfile setuptools && \
+    cp sitecustomize.py .venv/lib/python3.10/site-packages/
 
 # Expose Coolify/Traefik port
 EXPOSE 8080
