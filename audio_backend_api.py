@@ -31,6 +31,10 @@ dg_client = DeepgramClient(api_key=DEEPGRAM_API_KEY)
 async def health(_: Request):
     return "Smart Sampler API @ sampler.v1su4.com - ready"
 
+@app.get("/healthz")
+async def healthz(_: Request):
+    return "ok"
+
 @app.post("/analyze")
 async def analyze(request: Request):
     mode = request.query_params.get("mode", "full")   # ?mode=fast or ?mode=full
