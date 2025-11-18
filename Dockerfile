@@ -21,11 +21,14 @@ COPY pyproject.toml .
 COPY audio_backend_api.py .
 COPY sitecustomize.py .
 
-# Create virtual environment and install dependencies
+# Create virtual environment and install dependencies in stages
+# Install base packages first
 RUN uv venv && \
-    uv pip install \
-    robyn librosa madmom deepgram-sdk python-dotenv python-multipart \
-    'numpy<2' scipy soundfile setuptools && \
+    uv pip install setuptools 'numpy<2' && \
+    uv pip install Cython && \
+    uv pip install scipy soundfile && \
+    uv pip install madmom && \
+    uv pip install robyn librosa deepgram-sdk python-dotenv python-multipart && \
     cp sitecustomize.py .venv/lib/python3.10/site-packages/
 
 # Expose Coolify/Traefik port
