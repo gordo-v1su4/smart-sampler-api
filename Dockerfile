@@ -12,18 +12,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install uv via pip (fastest + most reliable method 2025)
 RUN pip install --no-cache-dir uv
 
-WORKDIR /app
+WORKDIR /appimage.png
 
 # Copy only what we need for install (layer caching)
 COPY pyproject.toml .
 COPY audio_backend_api.py .
 COPY sitecustomize.py .
 
-# Create virtual environment and install dependencies
+# Create virtual environment and install dependencies in stages
+# First install build dependencies and numpy (madmom needs it at build time)
 RUN uv venv && \
-    uv pip install \
-    robyn librosa madmom deepgram-sdk python-dotenv python-multipart \
-    'numpy<2' scipy soundfile setuptools && \
+    uv pip install 'numpy<2' Cython setuptools && \
+    uv pip install scipy soundfile && \
+    uv pip install madmom && \
+    uv pip install robyn librosa deepgram-sdk python-dotenv python-multipart && \
     cp sitecustomize.py .venv/lib/python3.10/site-packages/
 
 # Expose Coolify/Traefik port
