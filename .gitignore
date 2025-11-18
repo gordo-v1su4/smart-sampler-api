@@ -33,7 +33,7 @@ venv.bak/
 
 # uv
 .uv/
-uv.lock
+# uv.lock should be committed for reproducible builds
 
 # Environment variables
 .env
