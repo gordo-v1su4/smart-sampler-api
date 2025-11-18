@@ -44,6 +44,8 @@ jobs:
         continue-on-error: true
 
       - name: Validate imports
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           uv run python -c "import robyn, librosa, madmom, deepgram, dotenv, numpy, scipy; print('All imports valid')"
 
