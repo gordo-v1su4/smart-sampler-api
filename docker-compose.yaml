@@ -1,7 +1,7 @@
 version: "3.9"
 
 # Note: This file is for local testing only.
-# Production deployment uses Coolify at https://sampler.v1su4.com:5000
+# Production deployment uses Coolify with Traefik reverse proxy at https://sampler.v1su4.com
 
 services:
   smart-sampler-api:
