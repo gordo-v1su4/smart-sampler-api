@@ -31,7 +31,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install robyn librosa madmom deepgram-sdk python-dotenv python-multipart 'numpy<2' scipy soundfile
+          uv pip install robyn librosa madmom deepgram-sdk python-dotenv python-multipart 'numpy<2' scipy soundfile setuptools
           uv pip install ruff
 
       - name: Check Python syntax

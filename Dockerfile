@@ -22,7 +22,7 @@ COPY audio_backend_api.py .
 RUN uv venv && \
     uv pip install \
     robyn librosa madmom deepgram-sdk python-dotenv python-multipart \
-    'numpy<2' scipy soundfile
+    'numpy<2' scipy soundfile setuptools
 
 # Expose Coolify/Traefik port
 EXPOSE 8080
