@@ -1,7 +1,13 @@
+networks:
+  coolify:
+    external: true
+
 services:
   smart-sampler-api:
     build: .
     restart: unless-stopped
+    networks:
+      - coolify
     environment:
       - ROBYN_HOST=0.0.0.0
       - ROBYN_PORT=8080
