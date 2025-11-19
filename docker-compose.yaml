@@ -1,7 +1,3 @@
-networks:
-  coolify:
-    external: true
-
 services:
   smart-sampler-api:
     build: .
@@ -15,3 +11,7 @@ services:
       - .env
     volumes:
       - .:/app
+
+networks:
+  coolify:
+    external: true
