@@ -7,6 +7,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
     gcc \
+    curl \
     libsndfile1 && \
     apt-get install -y --no-install-recommends ffmpeg && \
     rm -rf /var/lib/apt/lists/*
@@ -14,7 +15,7 @@ RUN apt-get update && \
 # Install uv via pip (fastest + most reliable method 2025)
 RUN pip install --no-cache-dir uv
 
-WORKDIR /appimage.png
+WORKDIR /app
 
 # Copy only what we need for install (layer caching)
 COPY pyproject.toml .

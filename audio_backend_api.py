@@ -27,7 +27,8 @@ dg_client = DeepgramClient(api_key=DEEPGRAM_API_KEY) if DEEPGRAM_API_KEY else No
 
 @app.get("/health")
 async def health(request: Request):
-    host = request.headers.get("host", "unknown")
+    # Robyn headers.get() only takes one argument
+    host = request.headers.get("host") or "unknown"
     print(f"Incoming /health from Host: {host}")
     return "Smart Sampler API @ sampler.v1su4.com - ready"
 
