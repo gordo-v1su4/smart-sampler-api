@@ -2,8 +2,6 @@ services:
   smart-sampler-api:
     build: .
     restart: unless-stopped
-    networks:
-      - coolify
     environment:
       - ROBYN_HOST=0.0.0.0
       - ROBYN_PORT=8080
@@ -11,7 +9,9 @@ services:
       - .env
     volumes:
       - .:/app
-
-networks:
-  coolify:
-    external: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8080/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
