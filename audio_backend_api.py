@@ -23,9 +23,7 @@ app = Robyn(
 )
 
 DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
-if not DEEPGRAM_API_KEY:
-    raise RuntimeError("Set DEEPGRAM_API_KEY in Coolify secrets!")
-dg_client = DeepgramClient(api_key=DEEPGRAM_API_KEY)
+dg_client = DeepgramClient(api_key=DEEPGRAM_API_KEY) if DEEPGRAM_API_KEY else None
 
 @app.get("/health")
 async def health(_: Request):
@@ -55,9 +53,13 @@ async def analyze(request: Request):
 
         lyrics_data = {"full_text": "", "words": [], "phrases": []}
         if mode == "full":
+            if dg_client is None:
+                return jsonify(
+                    {"error": "DEEPGRAM_API_KEY not configured on server"},
+                    status_code=500,
+                )
             with open(tmp_path, "rb") as f:
                 buffer_data = f.read()
-            
             resp = dg_client.listen.v1.media.transcribe_file(
                 request=buffer_data,
                 model="nova-2",
@@ -66,6 +68,7 @@ async def analyze(request: Request):
                 punctuate=True,
                 language="en"
             )
+
             alt = resp.results.channels[0].alternatives[0]
             lyrics_data = {
                 "full_text": alt.transcript,
