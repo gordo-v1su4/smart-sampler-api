@@ -26,7 +26,9 @@ DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
 dg_client = DeepgramClient(api_key=DEEPGRAM_API_KEY) if DEEPGRAM_API_KEY else None
 
 @app.get("/health")
-async def health(_: Request):
+async def health(request: Request):
+    host = request.headers.get("host", "unknown")
+    print(f"Incoming /health from Host: {host}")
     return "Smart Sampler API @ sampler.v1su4.com - ready"
 
 @app.get("/healthz")
